@@ -4,13 +4,14 @@ import 'firebase/compat/auth';
 import 'firebase/compat/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAcSHMpkPYazrAZvjcLXfvrja08a-7VroU",
-  authDomain: "my-tube-clone-7eda2.firebaseapp.com",
-  projectId: "my-tube-clone-7eda2",
-  storageBucket: "my-tube-clone-7eda2.appspot.com",
-  messagingSenderId: "283814602509",
-  appId: "1:283814602509:web:82064cde7a9b50d755f244"
+  apiKey: "AIzaSyDMj6YRra2Vnq-biKv3SpDl3yn6_XZ0duA",
+  authDomain: "clone-of-yt.firebaseapp.com",
+  projectId: "clone-of-yt",
+  storageBucket: "clone-of-yt.appspot.com",
+  messagingSenderId: "871665534479",
+  appId: "1:871665534479:web:d0d1e253d6ab90fef9457a"
 };
+
 
   
   firebase.initializeApp(firebaseConfig)
