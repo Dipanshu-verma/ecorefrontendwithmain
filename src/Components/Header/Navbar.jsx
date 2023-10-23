@@ -74,7 +74,7 @@ const Navbar = () => {
               {
                 <Image
                   src={
-                    profile?profile?.photoURL
+                    profile?profile.photoURL
                       : "https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png"
                   }
                   borderRadius="50%"

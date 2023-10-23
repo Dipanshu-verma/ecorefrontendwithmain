@@ -31,7 +31,7 @@ const navigate =  useNavigate()
           title: "Password Reset Failed",
           description: `Password must contain at least 1 symbol and 1 number!
           `,
-          status: "success",
+          status: "error",
           position: "top",
           duration: 2000,
           isClosable: true,
