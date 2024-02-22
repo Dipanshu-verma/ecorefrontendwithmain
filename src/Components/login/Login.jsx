@@ -15,7 +15,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import "./login.scss";
 import axios from "axios";
-
+import googlelogo from "./transparent-google-logo-google-logo-with-colorful-letters-on-black-backgro65cf69054d0407.9551261217080916533155.png"
 import { useDispatch, useSelector } from "react-redux";
 import { LoginWithgoogle, loginNormal } from "../../Redux/actions/authaction";
 import { useNavigate } from "react-router-dom";
@@ -226,7 +226,7 @@ const BACKEND_API = "https://ecorebackendappi.onrender.com"
         <Button w="100%" type="submit" colorScheme="blue" mt="2rem">
           {!login ? "Create Account" : "Sign in"}{" "}
         </Button>
-   <Box
+         <Box
           display="flex"
           gap="1rem"
           mt="2rem"
@@ -242,7 +242,8 @@ const BACKEND_API = "https://ecorebackendappi.onrender.com"
           <Image
             w="1.6rem"
             cursor="pointer"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2008px-Google_%22G%22_Logo.svg.png"
+            src={googlelogo}
+            
           />
         </Box>
  
