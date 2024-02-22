@@ -227,8 +227,6 @@ const BACKEND_API = "https://ecorebackendappi.onrender.com"
           {!login ? "Create Account" : "Sign in"}{" "}
         </Button>
         
- 
-        
       </form>
     </Box>
   );
