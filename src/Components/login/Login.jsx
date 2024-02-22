@@ -226,26 +226,7 @@ const BACKEND_API = "https://ecorebackendappi.onrender.com"
         <Button w="100%" type="submit" colorScheme="blue" mt="2rem">
           {!login ? "Create Account" : "Sign in"}{" "}
         </Button>
-         <Box
-          display="flex"
-          gap="1rem"
-          mt="2rem"
-          py=".5rem"
-          borderRadius="3px"
-          backgroundColor="rgb(227, 227, 227)"
-          border="1px solid gray"
-          justifyContent="center"
-          onClick={handleLoginWithgoogle}
-        >
-          <Text>Continue with </Text>
-
-          <Image
-            w="1.6rem"
-            cursor="pointer"
-            src={googlelogo}
-            
-          />
-        </Box>
+        
  
         
       </form>
