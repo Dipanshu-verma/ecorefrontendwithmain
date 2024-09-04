@@ -5,27 +5,24 @@ import {
   Box,
   Button,
   FormControl,
-  FormLabel,
-  Grid,
-  Image,
   Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
-  ModalContent,
   ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Text,
+  Image,
   useDisclosure,
   useToast,
+  ModalOverlay,
+  ModalContent,
 } from "@chakra-ui/react";
 import { setTotalPrice, setcartItems } from "../../../Redux/actions/cartaction";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
 const CartScreen = () => {
   const [input, setInput] = useState("");
-  const [discount, setdiscount] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const { cartItems, totalPrice } = useSelector((state) => state.cart);
   const [show, setShow] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,38 +35,38 @@ const CartScreen = () => {
     name: "",
   });
   const toast = useToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const BACKEND_API = "https://ecorebackendappi.onrender.com";
+
   function handleDiscount() {
     if (input === "ECORE10") {
       setShow(false);
       setInput("");
-      setdiscount(((Math.floor(totalPrice) * 10) / 100).toFixed(0));
+      setDiscount(((Math.floor(totalPrice) * 10) / 100).toFixed(0));
       localStorage.setItem("discountprice", discount);
     } else {
       setShow(true);
       setInput("");
     }
   }
-  
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const BACKEND_API = "https://ecorebackendappi.onrender.com"
-  async function handlecheckoutok() {
-   
+
+  async function handleCheckoutOk() {
     const token = localStorage.getItem("user_accesstoken");
     const profile = localStorage.getItem("user_profile");
     const isMobileValid = /^[0-9]{10}$/.test(address.mobile);
-    const iszipValid = /^[0-9]{6}$/.test(address.zip);
-    
+    const isZipValid = /^[0-9]{6}$/.test(address.zip);
+
     if (
       address.name &&
       address.street &&
       address.city &&
       address.state &&
-      iszipValid &&
+      isZipValid &&
       isMobileValid
     ) {
       toast({
-        title:"Order Successfull",
+        title: "Order Successful",
         description: `Thank you! Your order is confirmed and you'll be redirected to the home page shortly.`,
         status: "success",
         position: "top",
@@ -77,14 +74,12 @@ const CartScreen = () => {
         isClosable: true,
       });
       try {
-        const total  = Math.floor(totalPrice)-discount
-        
-       
+        const total = Math.floor(totalPrice) - discount;
+
         const res = await axios.post(`${BACKEND_API}/checkout`, {
           token,
           address,
-          total
-           
+          total,
         });
 
         localStorage.clear();
@@ -102,7 +97,7 @@ const CartScreen = () => {
     } else {
       toast({
         title: "Incomplete Information",
-        description: `please fill the all details carefully`,
+        description: `Please fill in all details carefully.`,
         status: "error",
         position: "top",
         duration: 2000,
@@ -111,8 +106,7 @@ const CartScreen = () => {
     }
   }
 
-  function handlecheckout() {
-    
+  function handleCheckout() {
     const token = localStorage.getItem("user_accesstoken");
 
     if (token) {
@@ -120,7 +114,7 @@ const CartScreen = () => {
         onOpen();
       } else {
         toast({
-          description: `please add items first`,
+          description: `Please add items first.`,
           status: "error",
           position: "top",
           duration: 2000,
@@ -129,12 +123,13 @@ const CartScreen = () => {
       }
     } else {
       toast({
-        description: `please login first`,
+        description: `Please login first.`,
         status: "error",
         position: "top",
         duration: 2000,
         isClosable: true,
       });
+      navigate("/login")
     }
   }
 
@@ -149,87 +144,79 @@ const CartScreen = () => {
   return (
     <Box
       display="flex"
+      flexDirection={["column", "column", "row"]}
       mt="12vh"
       justifyContent="space-between"
       gap="2rem"
       p="2rem"
     >
-      <Box>
+      <Box flex="1">
         {cartItems?.length === 0 ? (
           <Box display="flex" flexDirection="column" alignItems="center">
             <Image
               src="https://media.tenor.com/2UPyt6TKuWgAAAAM/marflrt.gif"
               alignSelf="center"
+              maxW={["100%", "80%", "60%"]}
             />
-            <h1>Cart is Empty</h1>
+            <Text mt={4}>Cart is Empty</Text>
           </Box>
         ) : (
           <ul>
             {cartItems?.map((item) => (
-              <CartCard product={item} CartScreen />
+              <CartCard key={item.id} product={item} CartScreen />
             ))}
           </ul>
         )}
       </Box>
-      <Box p="1rem">
+      <Box p="1rem" flexBasis={["100%", "100%", "30%"]} maxW="500px">
         <Box justifyContent="space-between" gap="1.3rem" display="flex">
-          <Text>
-            {" "}
-            <Input
-              type="text"
-              placeholder="Enter Coupon Code"
-              value={input}
-              width="14rem"
-              onChange={(e) => setInput(e.target.value)}
-            />{" "}
-            <Text display={show ? "block" : "none"} color="red">
-              Invalid promo code
-            </Text>{" "}
-          </Text>
+          <Input
+            type="text"
+            placeholder="Enter Coupon Code"
+            value={input}
+            width="100%"
+            onChange={(e) => setInput(e.target.value)}
+          />
           <Button onClick={handleDiscount} colorScheme="green">
             Apply
           </Button>
         </Box>
-        <Box fontSize="17px" fontWeight="600" width="90%" m="auto" mt="1rem">
+        <Box fontSize="17px" fontWeight="600" width="100%" mt="1rem">
           <Box justifyContent="space-between" gap="2rem" display="flex">
-            <p>Price :</p>
-            <p>${totalPrice.toFixed(0)}</p>
+            <Text>Price :</Text>
+            <Text>${totalPrice.toFixed(0)}</Text>
           </Box>
           <Box justifyContent="space-between" gap="2rem" display="flex">
-            <p>Discount :</p>
-            <p>${discount}</p>
+            <Text>Discount :</Text>
+            <Text>${discount}</Text>
           </Box>
           <Box justifyContent="space-between" gap="2rem" display="flex">
-            <p>Total Amount :</p>
-            <p>
-              $
-              {discount === 0
-                ? totalPrice.toFixed(0)
-                : ((totalPrice * 90) / 100).toFixed(0)}
-            </p>
+            <Text>Total Amount :</Text>
+            <Text>
+              ${discount === 0 ? totalPrice.toFixed(0) : ((totalPrice * 90) / 100).toFixed(0)}
+            </Text>
           </Box>
         </Box>
         <Button
+          w="100%"
+          mt="1rem"
           border="2px"
-          ml="68%"
           borderRadius="5px"
           bg="#000000"
           color="#fff"
-          mt="1rem"
           _hover={{ color: "black", bg: "#fff", boxShadow: "0 0 10px black" }}
-          onClick={handlecheckout}
+          onClick={handleCheckout}
         >
           Checkout
         </Button>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay/>
         <ModalContent>
           <ModalBody>
             <Text fontSize="16px" fontWeight="600">
-            Thank you for choosing Ecore! To ensure a seamless delivery, please provide your shipping address so we can   send you the order details to your email.
+              Thank you for choosing Ecore! To ensure a seamless delivery, please provide your shipping address so we can send you the order details to your email.
             </Text>
-
             <FormControl mt={2}>
               <Input
                 type="text"
@@ -250,7 +237,6 @@ const CartScreen = () => {
                 required
               />
             </FormControl>
-
             <FormControl mt={2}>
               <Input
                 type="text"
@@ -292,13 +278,12 @@ const CartScreen = () => {
               />
             </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button
               _hover={{ background: "red.600" }}
               backgroundColor="blue.500"
               color="#fff"
-              onClick={handlecheckoutok}
+              onClick={handleCheckoutOk}
             >
               Submit
             </Button>
